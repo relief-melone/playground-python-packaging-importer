@@ -1,13 +1,14 @@
 
-import os
-import sys
+import os, sys
+
 from langchain.agents import structured_output
 from langchain.agents.structured_output import ProviderStrategy, ToolStrategy
 from langchain_core.language_models import BaseChatModel
-from pypacking.main import basic_schema
 from langchain.agents import create_agent
 from langchain_ollama import ChatOllama
 from langchain_openai import ChatOpenAI
+
+from pypacking.main import basic_schema
 
 if not os.environ.get("OPENAI_API_KEY"):
     print("Please provide the env var OPENAPI_API_KEY")

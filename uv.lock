@@ -804,7 +804,7 @@ wheels = [
 [[package]]
 name = "pypacking"
 version = "0.1.0"
-source = { git = "https://github.com/relief-melone/playground-python-packaging.git#518f7b67e6bf808b68fa228fea770f5945c3a0f9" }
+source = { git = "https://github.com/relief-melone/playground-python-packaging.git#18fe7f5dcf8cf2248e9f132a4a0b9b676f0c155b" }
 dependencies = [
     { name = "debugpy" },
     { name = "hatchling" },
