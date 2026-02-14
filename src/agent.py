@@ -8,7 +8,8 @@ from langchain.agents import create_agent
 from langchain_ollama import ChatOllama
 from langchain_openai import ChatOpenAI
 
-from pypacking.main import basic_schema
+from private_packaging.main import basic_schema
+
 
 if not os.environ.get("OPENAI_API_KEY"):
     print("Please provide the env var OPENAPI_API_KEY")

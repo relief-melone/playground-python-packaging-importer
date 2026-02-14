@@ -8,6 +8,7 @@ dependencies = [
   "langchain>=1.2.10",
   "langchain-ollama>=1.0.1",
   "langchain-openai>=1.1.9",
+  "private-packaging",
   "pypacking",
   "uvicorn>=0.40.0",
 ]
@@ -20,5 +21,6 @@ package-mode = false
 
 [tool.uv.sources]
 pypacking = { git = "https://github.com/relief-melone/playground-python-packaging.git" }
+private-packaging = { git = "ssh://git@github.com/relief-melone/playground-python-packaging-private.git" }
 
 

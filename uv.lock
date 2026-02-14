@@ -665,6 +665,15 @@ wheels = [
 ]
 
 [[package]]
+name = "private-packaging"
+version = "0.1.0"
+source = { git = "ssh://git@github.com/relief-melone/playground-python-packaging-private.git#afc8d71df6e222e5782f5512fb47ae1c31e45018" }
+dependencies = [
+    { name = "debugpy" },
+    { name = "hatchling" },
+]
+
+[[package]]
 name = "project-name"
 version = "0.1.0"
 source = { virtual = "." }
@@ -674,6 +683,7 @@ dependencies = [
     { name = "langchain" },
     { name = "langchain-ollama" },
     { name = "langchain-openai" },
+    { name = "private-packaging" },
     { name = "pypacking" },
     { name = "uvicorn" },
 ]
@@ -685,6 +695,7 @@ requires-dist = [
     { name = "langchain", specifier = ">=1.2.10" },
     { name = "langchain-ollama", specifier = ">=1.0.1" },
     { name = "langchain-openai", specifier = ">=1.1.9" },
+    { name = "private-packaging", git = "ssh://git@github.com/relief-melone/playground-python-packaging-private.git" },
     { name = "pypacking", git = "https://github.com/relief-melone/playground-python-packaging.git" },
     { name = "uvicorn", specifier = ">=0.40.0" },
 ]
