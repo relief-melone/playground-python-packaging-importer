@@ -35,8 +35,6 @@ jobs:
     #    push: false
   kaniko-build:
     runs-on: rm-default-runners
-    container:
-      image: gcr.io/kaniko-project/executor:debug
     #container:
     #  image: ubuntu:latest
     steps:
@@ -51,11 +49,32 @@ jobs:
     #    username: test
     #    password: test
     - name: Build and Push
-      run: |
-        mkdir .ssh
-        echo "{{ secrets.SSH_PRIVATE_KEY }}" > .ssh/id_rsa
-        chmod 600 .ssh/id_rsa
-        ssh-keyscan github.com >> .ssh/known_hosts
+      # We use the raw kaniko executor image to avoid "Container Action" errors
+      uses: docker://gcr.io/kaniko-project/executor:v1.14.0
+      with:
+        args: >-
+          --context=${{ github.workspace }}
+          --dockerfile=Dockerfile
+          --destination=your-registry/your-image:latest
+          --build-arg=SSH_PRIVATE_KEY="${{ secrets.SSH_PRIVATE_KEY }}"
+      env:
+        # This tells Kaniko how to authenticate with your registry
+        # Ensure these secrets are set in your GitHub repo
+        CANIKO_DOCKER_CONFIG: |
+          {
+            "auths": {
+              "https://index.docker.io/v1/": {
+                "auth": "${{ secrets.DOCKER_AUTH_TOKEN }}"
+              }
+            }
+          }
+
+    #- name: Build and Push
+    #  run: |
+    #    mkdir .ssh
+    #    echo "{{ secrets.SSH_PRIVATE_KEY }}" > .ssh/id_rsa
+    #    chmod 600 .ssh/id_rsa
+    #    ssh-keyscan github.com >> .ssh/known_hosts
 
     #    /kaniko/executor \
     #      --context "${{ github.workspace }}" \
