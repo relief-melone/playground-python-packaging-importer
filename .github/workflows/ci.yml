@@ -51,6 +51,7 @@ jobs:
       run: |
         buildah --storage-driver vfs build \
           --isolation chroot \
+          --ssh default \
           -t importer
           .
 
