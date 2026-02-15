@@ -4,7 +4,7 @@ on: [ push, pull_request ]
 
 jobs:
   build:
-    runs-on: arc-runners
+    runs-on: rm-default-runners
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
