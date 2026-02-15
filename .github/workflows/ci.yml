@@ -62,7 +62,7 @@ jobs:
     - name: Push image
       run: |
         buildah push \
-          build:latest \
+          localhost/build:latest \
           docker://ghcr.io/relief-melone/playground-python-packaging-importer:latest
 
 
