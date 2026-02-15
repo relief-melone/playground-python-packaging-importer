@@ -67,9 +67,24 @@
           package-mode = false
 
         '';
+
+        fhs_build = pkgs.buildFHSEnv {
+          name = "mainline_shell";
+          targetPkgs = pkgs: (with pkgs; [
+            buildah
+            cacert
+            openssh
+          ]);
+          runScript = pkgs.writeScript "init.sh" ''
+            echo "Welcome to the build shell!"
+            exec bash
+          '';
+        };
+
       in
       {
         devShells.default = fhs.env;
+        devShells.build = fhs_build.env;
       }
     );
 }

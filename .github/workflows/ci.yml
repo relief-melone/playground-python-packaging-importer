@@ -36,14 +36,16 @@ jobs:
 
     - name: Build Image
       run: |
-        eval $(ssh-agent -s)
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
+        nix-develop --command bash -c "
+          eval $(ssh-agent -s)
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
 
-        buildah --storage-driver vfs build \
-          --isolation chroot \
-          --ssh default \
-          -t build:latest
-          .
+          buildah --storage-driver vfs build \
+            --isolation chroot \
+            --ssh default \
+            -t build:latest
+            .
+          "
 
     - name: Push image
       run: |
