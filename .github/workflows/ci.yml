@@ -5,7 +5,6 @@ on: [ push, pull_request, workflow_dispatch ]
 jobs:
   build:
     runs-on: rm-default-runners
-    #container: ghcr.io/actions/actions-runner:latest
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
@@ -21,19 +20,7 @@ jobs:
         ssh-keyscan github.com >> ~/.ssh/known_hosts
     - name: Install dependencies
       run: uv sync
-    #- name: Set up Docker Buildx
-    #  uses: docker/setup-buildx-action@v3
-    #  with:
-    #    driver-opt: network=host
-    #    buildkit-flags: --debug
-    #- name: Docker build
-    #  uses: docker/build-push-action@v6
-    #  with:
-    #    context: .
-    #    ssh: |
-    #      default=${{ env.SSH_AUTH_SOCK }}
-    #    push: false
-  kaniko-build:
+  build-and-publish-container-image:
     runs-on: rm-default-runners
     env:
       STORAGE_DRIVER: vfs
@@ -50,7 +37,6 @@ jobs:
     - name: Build Image
       run: |
         eval $(ssh-agent -s)
-
         echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
 
         buildah --storage-driver vfs build \
@@ -61,6 +47,8 @@ jobs:
 
     - name: Push image
       run: |
+        buildah --version
+        buildah login --help
         buildah login -u USERNAME -p {{ screts.GHCR_TOKEN }} ghcr.io
         buildah --storage-driver vfs images
         buildah --storage-driver vfs push \
