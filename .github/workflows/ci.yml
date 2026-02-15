@@ -20,3 +20,10 @@ jobs:
         ssh-keyscan github.com >> ~/.ssh/known_hosts
     - name: Install dependencies
       run: uv sync
+    - name: Docker build
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        ssh: |
+          default=${{ env.SSH_AUTH_SOCK }}
+        push: false
