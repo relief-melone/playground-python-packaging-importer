@@ -45,7 +45,7 @@ jobs:
     - name: Install buildah
       run: |
         apt-get update
-        apt-get install -y ca-certificates buildah
+        apt-get install -y ca-certificates buildah openssh-client
 
     - name: Build Image
       run: |
