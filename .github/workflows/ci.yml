@@ -61,6 +61,7 @@ jobs:
 
     - name: Push image
       run: |
+        buildah login -u USERNAME -p {{ github.token }} ghcr.io
         buildah --storage-driver vfs images
         buildah --storage-driver vfs push \
           localhost/build:latest \
