@@ -43,7 +43,7 @@ jobs:
     - name: Install buildah
       run: |
         apt-get update
-        apt-get install -y buildah
+        apt-get install -y ca-certificates buildah
 
     - name: Build Image
       run: |
