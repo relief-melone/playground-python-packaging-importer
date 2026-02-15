@@ -40,6 +40,14 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Install Kaniko Executor
+      run: |
+        # Download the kaniko executor binary
+        curl -LO \
+          https://github.com/GoogleContainerTools/kaniko/releases/latest/download/executor
+        chmod +x executor
+        sudo mv executor /usr/local/bin/kaniko-executor
     #- name: Build and push image
     #  uses: aevea/action-kaniko@master
     #  with:
@@ -49,25 +57,33 @@ jobs:
     #    username: test
     #    password: test
     - name: Build and Push
-      # We use the raw kaniko executor image to avoid "Container Action" errors
-      uses: docker://gcr.io/kaniko-project/executor:v1.14.0
-      with:
-        args: >-
-          --context=${{ github.workspace }}
-          --dockerfile=Dockerfile
-          --destination=your-registry/your-image:latest
-          --build-arg=SSH_PRIVATE_KEY="${{ secrets.SSH_PRIVATE_KEY }}"
-      env:
-        # This tells Kaniko how to authenticate with your registry
-        # Ensure these secrets are set in your GitHub repo
-        CANIKO_DOCKER_CONFIG: |
-          {
-            "auths": {
-              "https://index.docker.io/v1/": {
-                "auth": "${{ secrets.DOCKER_AUTH_TOKEN }}"
-              }
-            }
-          }
+      run: |
+        # Run kaniko-executor directly on the host
+        kaniko-executor \
+          --context "${{ github.workspace }}" \
+          --dockerfile "${{ github.workspace }}/Dockerfile" \
+          --destination "your-registry/your-image:latest" \
+          --build-arg SSH_PRIVATE_KEY="${{ secrets.SSH_PRIVATE_KEY }}"
+    #- name: Build and Push
+    #  # We use the raw kaniko executor image to avoid "Container Action" errors
+    #  uses: docker://gcr.io/kaniko-project/executor:v1.14.0
+    #  with:
+    #    args: >-
+    #      --context=${{ github.workspace }}
+    #      --dockerfile=Dockerfile
+    #      --destination=your-registry/your-image:latest
+    #      --build-arg=SSH_PRIVATE_KEY="${{ secrets.SSH_PRIVATE_KEY }}"
+    #  env:
+    #    # This tells Kaniko how to authenticate with your registry
+    #    # Ensure these secrets are set in your GitHub repo
+    #    CANIKO_DOCKER_CONFIG: |
+    #      {
+    #        "auths": {
+    #          "https://index.docker.io/v1/": {
+    #            "auth": "${{ secrets.DOCKER_AUTH_TOKEN }}"
+    #          }
+    #        }
+    #      }
 
     #- name: Build and Push
     #  run: |
