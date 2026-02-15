@@ -35,6 +35,8 @@ jobs:
     #    push: false
   kaniko-build:
     runs-on: rm-default-runners
+    env:
+      STORAGE_DRIVER: vfs
     container:
       image: ubuntu:latest
     steps:
@@ -47,6 +49,9 @@ jobs:
 
     - name: Build Image
       run: |
-        buildah build -f Dockerfile -t importer
+        buildah build \
+          --isolation chroot \
+          -t importer
+          .
 
 
