@@ -17,6 +17,6 @@ jobs:
     - name: Add GitHub to known_hosts
       run: |
         mkdir -p ~/.ssh
-        ssk-keyscan github.com >> ~/.ssh/known_hosts
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
     - name: Install dependencies
       run: uv sync
