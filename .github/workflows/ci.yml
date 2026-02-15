@@ -33,23 +33,31 @@ jobs:
         ssh: |
           default=${{ env.SSH_AUTH_SOCK }}
         push: false
-  #kaniko-build:
-  #  runs-on: rm-default-runners
-  #  container:
-  #    image: ubuntu:latest
-  #  steps:
-  #  - name: Checkout
-  #    uses: actions/checkout@v4
-  #  - name: Build and Push
-  #    run: |
-  #      mkdir .ssh
-  #      echo "{{ secrets.SSH_PRIVATE_KEY }}" > .ssh/id_rsa
-  #      chmod 600 .ssh/id_rsa
-  #      ssh-keyscan github.com >> .ssh/known_hosts
+  kaniko-build:
+    runs-on: rm-default-runners
+    #container:
+    #  image: ubuntu:latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Build and push image
+      uses: aevea/action-kaniko@master
+      with:
+        build_args: |
+          SSH_PRIVATE_KEY=${{ secrets.SSH_PRIVATE_KEY }}
+        registry: index.docker.io
+        username: test
+        password: test
+    #- name: Build and Push
+    #  run: |
+    #    mkdir .ssh
+    #    echo "{{ secrets.SSH_PRIVATE_KEY }}" > .ssh/id_rsa
+    #    chmod 600 .ssh/id_rsa
+    #    ssh-keyscan github.com >> .ssh/known_hosts
 
-  #      /kaniko/executor \
-  #        --context "${{ github.workspace }}" \
-  #        --dockerfile "${{ github.workspace }}/Dockerfile" \
-  #        --destination "ghcr.io/relief-melone/playground-python-packaging-importer" \
-  #        --build-arg "SSH_KEY_DIR=.ssh"
+    #    /kaniko/executor \
+    #      --context "${{ github.workspace }}" \
+    #      --dockerfile "${{ github.workspace }}/Dockerfile" \
+    #      --destination "ghcr.io/relief-melone/playground-python-packaging-importer" \
+    #      --build-arg "SSH_KEY_DIR=.ssh"
 
