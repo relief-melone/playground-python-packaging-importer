@@ -35,7 +35,7 @@ jobs:
   kaniko-build:
     runs-on: rm-default-runners
     container:
-      image: gcr.io/kaniko-project/executor:debug
+      image: ubuntu:latest
     steps:
     - name: Checkout
       uses: actions/checkout@v4
