@@ -25,7 +25,7 @@ jobs:
     env:
       STORAGE_DRIVER: vfs
     container:
-      image: nixos/nix
+      image: nixos/nix:latest
     steps:
     - name: Checkout
       uses: actions/checkout@v4
