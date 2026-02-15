@@ -29,8 +29,15 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+    - uses: nicknovitski/nix-develop@v1
+      with:
+        arguments: .#build
+    - name: test-action
+      run: |
+        buildah --version
     - name: Install buildah
       run: |
+        
         apt-get update
         apt-get install -y ca-certificates buildah openssh-client
 
