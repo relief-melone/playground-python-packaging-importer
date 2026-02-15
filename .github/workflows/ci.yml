@@ -56,13 +56,13 @@ jobs:
         buildah --storage-driver vfs build \
           --isolation chroot \
           --ssh default \
-          -t importer
+          -t build:latest
           .
 
     - name: Push image
       run: |
         buildah push \
-          ${{ env.IMAGE_NAME }}:latest \
+          build:latest \
           docker://ghcr.io/relief-melone/playground-python-packaging-importer:latest
 
 
