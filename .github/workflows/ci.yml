@@ -61,8 +61,8 @@ jobs:
 
     - name: Push image
       run: |
-        buildah images
-        buildah push \
+        buildah --storage-driver vfs images
+        buildah --storage-driver vfs push \
           localhost/build:latest \
           docker://ghcr.io/relief-melone/playground-python-packaging-importer:latest
 
