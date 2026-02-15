@@ -49,7 +49,7 @@ jobs:
 
     - name: Build Image
       run: |
-        buildah build \
+        buildah --storage-driver vfs build \
           --isolation chroot \
           -t importer
           .
