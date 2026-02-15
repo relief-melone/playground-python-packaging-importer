@@ -32,3 +32,23 @@ jobs:
         ssh: |
           default=${{ env.SSH_AUTH_SOCK }}
         push: false
+  docker-build:
+    runs-on: rm-default-runners
+    container:
+      image: gcr.io/kaniko-project/executor:debug
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Build and Push
+      run: |
+        mkdir .ssh
+        echo "{{ secrets.SSH_PRIVATE_KEY }}" > .ssh/id_rsa
+        chmod 600 .ssh/id_rsa
+        ssh-keyscan github.com >> .ssh/known_hosts
+
+        /kaniko/executor \
+          --context "${{ github.workspace }}" \
+          --dockerfile "${{ github.workspace }}/Dockerfile" \
+          --destination "ghcr.io/relief-melone/playground-python-packaging-importer" \
+          --build-arg "SSH_KEY_DIR=.ssh"
+
