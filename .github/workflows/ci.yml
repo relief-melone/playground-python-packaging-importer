@@ -59,4 +59,10 @@ jobs:
           -t importer
           .
 
+    - name: Push image
+      run: |
+        buildah push \
+          ${{ env.IMAGE_NAME }}:latest \
+          docker://${{ env.IMAGE_NAME }}:latest
+
 
